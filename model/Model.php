@@ -12,9 +12,19 @@ class Model {
      */
     public $dbLink;
 
+    /**
+     * @var array $ini Constants Array
+     */
+    public $ini;
+
+
     function __construct(){ 
-        $dbLink = mysql_connect('localhost', 'root', '') or die ('Не удалось соединиться: ' . mysql_error());
-        mysql_select_db('dynamic_form') or die ('Не удалось выбрать базу данных');
+
+        $ini = parse_ini_file('php.ini');
+
+        $dbLink = mysql_connect($ini['host'], $ini['db_user'], $ini['db_password']) or die ('Не удалось соединиться: ' . mysql_error());
+
+        mysql_select_db($ini['db_name']) or die ('Не удалось выбрать базу данных');
 
         if ( mysql_num_rows(mysql_query("SHOW TABLES LIKE 'users'")) !== 1 ) {
             $this->createTable();

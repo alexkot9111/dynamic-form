@@ -28,8 +28,8 @@ class DashboardModel extends Model {
 	public function checkIssetEmail($email, $name, $territory) {
 
         $query = "SELECT email FROM users WHERE email = '$email'";
-		$result = mysql_query($query) or die('Запрос не удался: ' . mysql_error());
-		$res_arr = mysql_fetch_array($result, MYSQL_ASSOC);
+		$result = mysqli_query(self::$dbLink, $query) or die('Запрос не удался: ' . mysqli_error(self::$dbLink));
+		$res_arr = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
 		if ($res_arr['email'] === null) {
             self::setDashboardInfo($email, $name, $territory);
@@ -38,7 +38,7 @@ class DashboardModel extends Model {
             self::getDashboardInfo($res_arr['email']);
         }
 
-        mysql_free_result($result);
+        mysqli_free_result($result);
 
 		return self::$data;
 	}
@@ -57,7 +57,7 @@ class DashboardModel extends Model {
 	public function setDashboardInfo($email, $name, $territory) {
 
 		$query = "INSERT INTO users (email, name, territory) VALUES ('$email', '$name', '$territory')";
-		$result = mysql_query($query) or die('Запрос не удался: ' . mysql_error());
+		$result = mysqli_query(self::$dbLink, $query) or die('Запрос не удался: ' . mysqli_error(self::$dbLink));
 
 		self::getDashboardInfo($email);
 
@@ -75,11 +75,11 @@ class DashboardModel extends Model {
     public function getDashboardInfo($email) {
 
         $query = "SELECT * FROM users AS u LEFT JOIN t_koatuu_tree AS k ON u.territory = k.ter_id WHERE email = '$email'";
-		$result = mysql_query($query) or die('Запрос не удался: ' . mysql_error());
+		$result = mysqli_query(self::$dbLink, $query) or die('Запрос не удался: ' . mysqli_error(self::$dbLink));
 		
-		self::$data['dasboard_info'] = mysql_fetch_array($result, MYSQL_ASSOC);
+		self::$data['dasboard_info'] = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
-		mysql_free_result($result);
+		mysqli_free_result($result);
 
     }
 }

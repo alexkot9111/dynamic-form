@@ -26,8 +26,8 @@ class formModel extends Model {
     		$ter_pid_val = "= '$ter_pid'";
     	}   
         $query = "SELECT ter_id, ter_name FROM t_koatuu_tree WHERE ter_level = '$ter_level' AND ter_pid $ter_pid_val AND ter_type_id = '$ter_type_id' AND NOT ter_id = '8000000000' AND NOT ter_id = '8500000000'";
-		$result = mysql_query($query) or die('Запрос не удался: ' . mysql_error());
-		while ($res = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		$result = mysqli_query(self::$dbLink, $query) or die('Запрос не удался: ' . mysql_error(self::$dbLink));
+		while ($res = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 		    $res_arr[] = $res;
 		}
 		return $res_arr;

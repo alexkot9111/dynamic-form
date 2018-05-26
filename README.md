@@ -1,5 +1,10 @@
 # dynamic-form
 
+## Recommended server requirements:
+- Apache-PHP-7
+- PHP-7.0
+- MySQL-5.5
+
 ## Installation
 
 1. Clone or download the dynamic-form to your server/localhost.

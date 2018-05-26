@@ -24,12 +24,13 @@ class DashboardController extends Controller {
 
         $this->dashboardModel = new DashboardModel();
         $this->formModel = new FormModel();
+        $dbLink = Model::$dbLink;
 
         if (isset($_POST['ter_pid']) && isset($_POST['ter_type']) && isset($_POST['ter_level']) ){
 
-            $ter_pid = mysql_real_escape_string($_POST['ter_pid']);
-            $ter_type = mysql_real_escape_string($_POST['ter_type']);
-            $ter_level = mysql_real_escape_string($_POST['ter_level']);
+            $ter_pid = mysqli_real_escape_string($dbLink, $_POST['ter_pid']);
+            $ter_type = mysqli_real_escape_string($dbLink, $_POST['ter_type']);
+            $ter_level = mysqli_real_escape_string($dbLink, $_POST['ter_level']);
             $this->updateForm($ter_pid, $ter_type, $ter_level);
 
         }else{
@@ -37,9 +38,9 @@ class DashboardController extends Controller {
             if (!isset($_POST['email']) || !isset($_POST['name']) || !isset($_POST['territory'])){
                 $this->createForm();
             } else {
-                $email = mysql_real_escape_string($_POST['email']);
-                $name = mysql_real_escape_string($_POST['name']);
-                $territory = mysql_real_escape_string($_POST['territory']);
+                $email = mysqli_real_escape_string($dbLink, $_POST['email']);
+                $name = mysqli_real_escape_string($dbLink, $_POST['name']);
+                $territory = mysqli_real_escape_string($dbLink, $_POST['territory']);
                 $this->createDashboard($email, $name, $territory);
             }
 

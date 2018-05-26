@@ -10,7 +10,7 @@ class Model {
     /**
      * @var array $dbLink Database Link
      */
-    public $dbLink;
+    public static $dbLink;
 
     /**
      * @var array $ini Constants Array
@@ -29,10 +29,10 @@ class Model {
 
         $tables = self::$tables = array('t_koatuu_tree' => 'Contacts', 'users' => 'Users');
 
-        $dbLink = mysql_connect($ini['host'], $ini['db_user'], $ini['db_password']) or die ('Не удалось соединиться: ' . mysql_error());
+        $dbLink = self::$dbLink = mysqli_connect($ini['host'], $ini['db_user'], $ini['db_password']) or die ('Не удалось соединиться!');
 
         // Check if db exist
-        if (mysql_select_db($ini['db_name'])){
+        if (mysqli_select_db($dbLink, $ini['db_name'])){
             $this->checkTables($tables);
         } else {
             $this->createDB();
@@ -47,9 +47,9 @@ class Model {
         $db_name = self::$ini['db_name'];
         $tables = self::$tables;
         $query = "CREATE DATABASE $db_name";
-        $result = mysql_query($query) or die('Не удалось создать базу данных: ' . mysql_error());
+        $result = mysqli_query(self::$dbLink, $query) or die('Не удалось создать базу данных: ' . mysqli_error(self::$dbLink));
 
-        mysql_select_db($db_name);
+        mysqli_select_db(self::$dbLink, $db_name);
         $this->checkTables($tables);
     }
 
@@ -58,7 +58,7 @@ class Model {
      */
     public function checkTables($tables){
         foreach ($tables as $table_key => $table_func) {
-            if ( mysql_num_rows(mysql_query("SHOW TABLES LIKE '$table_key'")) !== 1 ) {
+            if ( mysqli_num_rows(mysqli_query(self::$dbLink, "SHOW TABLES LIKE '$table_key'")) !== 1 ) {
                 $funcFull = 'create'.$table_func.'Table';
                 $this->$funcFull();
             }
@@ -80,8 +80,8 @@ class Model {
             $templine .= $line;
 
             if (substr(trim($line), -1, 1) == ';') {
-                if(!mysql_query($templine)){
-                    print('Не удалось создать таблицу: ' . mysqli_error($dbLink));
+                if(!mysqli_query(self::$dbLink, $templine)){
+                    print('Не удалось создать таблицу: ' . mysqli_error(self::$dbLink));
                 }
                 $templine = '';
             }
@@ -99,6 +99,6 @@ class Model {
             territory bigint,
             PRIMARY KEY (id)
         );";
-        $result = mysql_query($query) or die('Не удалось создать таблицу: ' . mysql_error());
+        $result = mysqli_query(self::$dbLink, $query) or die('Не удалось создать таблицу: ' . mysqli_error(self::$dbLink));
     }
 }

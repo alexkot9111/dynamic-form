@@ -16,7 +16,7 @@ switch ($data['ter_type']) {
 }
 ?>
 <div class="form-group">
-	<select class="form-control dynamic-select" id="<?php echo $loc_id; ?>" name="<?php echo $loc_id; ?>" title="Будь ласка, оберіть <?php echo $loc_name; ?>" data-ter_type="<?php echo $new_ter_type; ?>" data-ter_level="<?php echo $new_ter_level; ?>" required>
+	<select class="form-control dynamic-select chosen-select" id="<?php echo $loc_id; ?>" name="<?php echo $loc_id; ?>" title="Будь ласка, оберіть <?php echo $loc_name; ?>" data-ter_type="<?php echo $new_ter_type; ?>" data-ter_level="<?php echo $new_ter_level; ?>" required>
     	<option value="" selected disabled>Оберіть <?php echo $loc_name; ?>...</option>
     	<?php 
     		if (isset($data['select_info'])) {
@@ -28,4 +28,5 @@ switch ($data['ter_type']) {
     		}
     	?>
     </select>
+    <script> $('.chosen-select').chosen({ width: '100%', height: '40px' }); </script>
 </div>

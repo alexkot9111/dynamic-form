@@ -1,5 +1,6 @@
 <html>
 	<head>
+		<meta charset="utf-8">
 		<link rel="stylesheet" href="./public/css/bootstrap.min.css">
 		<script src="./public/js/jquery-3.2.1.min.js"></script>
 		<script src="./public/js/jquery.validate.min.js"></script>

@@ -31,6 +31,12 @@ class Model {
 
         $dbLink = self::$dbLink = mysqli_connect($ini['host'], $ini['db_user'], $ini['db_password']) or die ('Не удалось соединиться!');
 
+        /* Check encoding utf8 */
+        if (!$dbLink->set_charset("utf8")) {
+            printf("Ошибка при загрузке набора символов utf8: %s\n", $dbLink->error);
+            exit();
+        }
+
         // Check if db exist
         if (mysqli_select_db($dbLink, $ini['db_name'])){
             $this->checkTables($tables);

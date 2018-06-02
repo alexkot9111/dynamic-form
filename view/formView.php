@@ -19,10 +19,10 @@
 					    <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Введіть email">
 					</div>
 					<div class="form-group">
-					    <select class="form-control dynamic-select chosen-select" id="region" name="region" title="Будь ласка, оберіть область" data-ter_type="1" data-ter_level="2" required>
-					    	<option value="" selected disabled>Оберіть область...</option>
+					    <select class="form-control dynamic-select chosen-select" id="region" name="region" title="Будь ласка, оберіть область" required>
+					    	<option value="" selected disabled>Оберіть область</option>
 					    	<?php 
-					    		foreach ($data as $region) {
+					    		foreach ($data['res_arr'] as $region) {
 					    			echo '<option value="'.$region['ter_id'].'">'.$region['ter_name'].'</option>';
 					    		}
 					    	?>

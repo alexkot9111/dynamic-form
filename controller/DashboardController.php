@@ -27,12 +27,10 @@ class DashboardController extends Controller {
         $this->formModel = new FormModel();
         $dbLink = Model::$dbLink;
 
-        if (isset($_POST['ter_pid']) && isset($_POST['ter_type']) && isset($_POST['ter_level']) ){
+        if (isset($_POST['ter_pid'])){
 
             $ter_pid = mysqli_real_escape_string($dbLink, $_POST['ter_pid']);
-            $ter_type = mysqli_real_escape_string($dbLink, $_POST['ter_type']);
-            $ter_level = mysqli_real_escape_string($dbLink, $_POST['ter_level']);
-            $this->updateForm($ter_pid, $ter_type, $ter_level);
+            $this->updateForm($ter_pid);
 
         }else{
 
@@ -74,7 +72,7 @@ class DashboardController extends Controller {
      * @return form content
      */
     function createForm(){
-        $data = $this->formModel->getSelectInfo(null, 0, 1);
+        $data = $this->formModel->getSelectInfo(null);
         $this->view('formView.php', $data);
     }
 
@@ -83,17 +81,10 @@ class DashboardController extends Controller {
      *
      * @param int $ter_pid Territory Parent Id
      *
-     * @param int $ter_type_id Territory Type
-     *
-     * @param int $ter_level Territory Level
-     *
      * @return dynamic select content
      */
-    function updateForm($ter_pid, $ter_type, $ter_level){
-        $form_info = $this->formModel->getSelectInfo($ter_pid, $ter_type, $ter_level);
-        $data['ter_pid'] = $ter_pid;
-        $data['ter_type'] = $ter_type;
-        $data['select_info'] = $form_info;
+    function updateForm($ter_pid){
+        $data = $this->formModel->getSelectInfo($ter_pid);
         $this->view('selectView.php', $data);
     }
 }
